@@ -1,0 +1,137 @@
+<html>
+	<head>
+		<style>
+            .col3 {
+                width: 300px;
+                height: 300px;
+                line-height: 300px;
+                text-align: center;
+                color: #333;
+                background: #aaa;
+                float: left;
+                margin: 2px;
+                display: block;
+                text-decoration: none;
+            }
+        </style>
+	</head>
+	<body>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+        <a href="#" class="col3 spotlight">300x300</a>
+		<script src="//g.alicdn.com/kissy/k/1.4.7/seed-min.js"></script>
+        <script>
+            KISSY.add('spotlight', function(S){
+                var defaults = {
+                        elName: '.spotlight',
+                        rootElName: '',
+                        maskColor: '#333',
+                        opacity: 0.5,
+                        animationSeconds: 0.5,
+                    },
+                    mergeObject = function(_old, _new){
+                        for(var i in _new) {
+                            _old[i] = _new[i];
+                        }
+
+                        return _old;
+                    },
+                    Spotlight = function(options){
+                        this.options = mergeObject(defaults, options);
+                        this.init(this.options);
+                    },
+                    CLASS_SHOW = 'show',
+                    CLASS_MASK = 'mui-spotlight-mask';
+
+                Spotlight.prototype = {
+                    init: function(options) {
+                        console.log('init options = ', options);
+                        this.addStyle(options);
+
+                        var $spotlight;
+                        if(options.rootElName) {
+                            $spotlight = S.all(options.rootElName).all(options.elName);
+                        }else{
+                            $spotlight = S.all(options.elName);
+                        }
+
+                        $spotlight.append('<div class="'+CLASS_MASK+'"></div>');
+
+                        $spotlight.on('mouseenter', function(){
+                            console.log('mouse hover');
+                            $spotlight.all('.'+CLASS_MASK).addClass(CLASS_SHOW);
+                            S.one(this).one('.'+CLASS_MASK).removeClass(CLASS_SHOW);
+                        });
+
+                        $spotlight.on('mouseleave', function(){
+                            console.log('mouse leave');
+                            $spotlight.all('.'+CLASS_MASK).removeClass(CLASS_SHOW);
+                        });
+                    },
+                    addStyle: function(options){
+                        console.log('addStyle options = ', options);
+                        var style = document.createElement('style'),
+                            CLASS_TRANSITION = 'transition',
+                            CLASS_TRANSITION_SCOPE = 'all',
+                            CLASS_TRANSITION_TYPE = 'ease',
+                            CLASS_BACKGROUND = 'background',
+                            CLASS_OPACITY = 'opacity',
+                            CLASS_FILTER = 'filter';
+
+                        style.type = 'text/css';
+                        style.innerHTML = ''+
+                            '.'+CLASS_MASK+' {'+
+                                'width: 100%;'+
+                                'height: 100%;'+
+                                'top: -100%;'+
+                                'position: relative;'+
+                                'float: left;'+
+                                CLASS_OPACITY+': 0.0;'+
+                                CLASS_FILTER+': alpha('+CLASS_OPACITY+'='+(options.opacity*100)+');'+ /* For IE8 and earlier */
+                                'background: '+options.maskColor+';'+
+                                '-o-'+CLASS_TRANSITION+': '+CLASS_TRANSITION_SCOPE+' '+options.animationSeconds+'s '+CLASS_TRANSITION_TYPE+';'+
+                                '-webkit-'+CLASS_TRANSITION+': '+CLASS_TRANSITION_SCOPE+' '+options.animationSeconds+'s '+CLASS_TRANSITION_TYPE+';'+
+                                '-moz-'+CLASS_TRANSITION+': '+CLASS_TRANSITION_SCOPE+' '+options.animationSeconds+'s '+CLASS_TRANSITION_TYPE+';'+
+                                CLASS_TRANSITION+':  '+CLASS_TRANSITION_SCOPE+' '+options.animationSeconds+'s '+CLASS_TRANSITION_TYPE+';'+
+                                CLASS_BACKGROUND+': '+options.maskColor+';'+
+                            '}'+
+                            '.'+CLASS_MASK+'.'+CLASS_SHOW+' {'+
+                                CLASS_OPACITY+': '+options.opacity+';'+
+                                CLASS_FILTER+': alpha('+CLASS_OPACITY+'='+(options.opacity*100)+');'+ /* For IE8 and earlier */
+                                '-o-'+CLASS_TRANSITION+': '+CLASS_TRANSITION_SCOPE+' '+options.animationSeconds+'s '+CLASS_TRANSITION_TYPE+';'+
+                                '-webkit-'+CLASS_TRANSITION+': '+CLASS_TRANSITION_SCOPE+' '+options.animationSeconds+'s '+CLASS_TRANSITION_TYPE+';'+
+                                '-moz-'+CLASS_TRANSITION+': '+CLASS_TRANSITION_SCOPE+' '+options.animationSeconds+'s '+CLASS_TRANSITION_TYPE+';'+
+                                CLASS_TRANSITION+':  '+CLASS_TRANSITION_SCOPE+' '+options.animationSeconds+'s '+CLASS_TRANSITION_TYPE+';'+
+                                CLASS_BACKGROUND+': '+options.maskColor+';'+
+                            '}';
+                        document.getElementsByTagName('head')[0].appendChild(style);
+                    }
+                }
+
+                return Spotlight;
+            }, {
+                requires: ['node', 'event']
+            });
+
+            KISSY.use('spotlight', function(S, Spotlight){
+                var t = new Date();
+                new Spotlight();
+
+                console.log(new Date() - t);
+            });
+        </script>
+	</body>
+</html>
