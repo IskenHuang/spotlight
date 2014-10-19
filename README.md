@@ -1,6 +1,8 @@
 # spotlight
 This is an [KISSY](http://docs.kissyui.com/) ui plugin. support ie9+. Mouse hover animation.
 
+# [DEMO](http://iskenhuang.github.io/spotlight/demo/)
+
 # how to use
 ```
 <a href="#" class="spotlight">ItemA</a>
